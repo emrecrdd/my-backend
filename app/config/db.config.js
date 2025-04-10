@@ -1,5 +1,5 @@
 module.exports = {
-  HOST: "ep-broad-sea-a5hfs1cv-pooler.us-east-2.aws.neon.tech", 
+  HOST: "ep-broad-sea-a5hfs1cv-pooler.us-east-2.aws.neon.tech",
   USER: "neondb_owner",
   PASSWORD: "npg_rm2iaf9HXoUY",
   DB: "neondb",
