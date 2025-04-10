@@ -7,7 +7,7 @@ module.exports = {
   dialectOptions: {
     ssl: {
       require: true, // SSL gereklidir
-      rejectUnauthorized: false // Eğer kendinden imzalı bir sertifika varsa, bu özelliği açabilirsin
+      rejectUnauthorized: true // Kendinden imzalı sertifikalar için bu seçeneği true yapın
     }
   },
   pool: {
