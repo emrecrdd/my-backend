@@ -1,22 +1,19 @@
-require('dotenv').config(); // .env dosyasındaki çevresel değişkenleri yükle
-const Sequelize = require("sequelize");
+const { Sequelize } = require('sequelize');
 const dbConfig = require("../config/db.config.js");
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
+  port: dbConfig.PORT,  // Portu da belirtmeyi unutma
   dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false // Kendinden imzalı sertifikalar için true yap
-    }
+    ssl: dbConfig.dialectOptions.ssl
   },
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
     idle: dbConfig.pool.idle,
-  },
+  }
 });
 
 const db = {};
