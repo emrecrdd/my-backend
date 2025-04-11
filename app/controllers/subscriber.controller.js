@@ -6,16 +6,14 @@ const axios = require("axios");
 
 // Nodemailer ayarları
 const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL_USER,  // Çevre değişkeni ile kullanıcı
-        pass: process.env.EMAIL_PASS,  // Çevre değişkeni ile şifre
-    },
-    tls: {
-        rejectUnauthorized: false  // SSL/TLS hata olasılıklarını engeller
-    },
-    debug: true, // Logları açar
-    logger: true,
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,  // Çevre değişkeni ile kullanıcı
+    pass: process.env.EMAIL_PASS,  // Çevre değişkeni ile şifre
+  },
+  tls: {
+    rejectUnauthorized: false,  // SSL/TLS hata olasılıklarını engeller
+  },
 });
 
 // Geçerli e-posta formatı kontrolü
