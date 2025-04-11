@@ -8,9 +8,10 @@ const app = express();
 const server = http.createServer(app);
 
 var corsOptions = {
-  origin: ["http://localhost:3000"], // React app URL'si
+  origin: ["http://localhost:3000", "https://silly-kitsune-247bd9.netlify.app"], // Netlify frontend domain'i
   credentials: true
 };
+
 
 app.use(cors(corsOptions));
 app.use(express.json());
