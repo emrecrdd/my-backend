@@ -61,72 +61,50 @@ exports.delete = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-    const { email } = req.body;
+  const { email } = req.body;
 
-    // E-posta adresi kontrolü
-    if (!email) {
-        return res.status(400).json({ message: "E-posta adresi gerekli." });
+  // E-posta adresi kontrolü
+  if (!email) {
+    return res.status(400).json({ message: "E-posta adresi gerekli." });
+  }
+
+  // E-posta formatı kontrolü
+  if (!validateEmail(email)) {
+    return res.status(400).json({ message: "Geçersiz e-posta adresi." });
+  }
+
+  try {
+    // Email zaten kayıtlı mı kontrol et
+    const existingSubscriber = await Subscriber.findOne({ where: { email } });
+
+    if (existingSubscriber) {
+      return res.status(400).json({ message: "Bu e-posta zaten kayıtlı." });
     }
 
-    // E-posta formatı kontrolü
-    if (!validateEmail(email)) {
-        return res.status(400).json({ message: "Geçersiz e-posta adresi." });
-    }
+    // Abone kaydını veritabanına ekle
+    await Subscriber.create({ email });
 
-    try {
-        // Email zaten kayıtlı mı kontrol et
-        const existingSubscriber = await Subscriber.findOne({ where: { email } });
+    // E-posta gönderim işlemi
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'CRD Soft Bülteni Aboneliği',
+      text: 'CRD Soft bültenine abone olduğunuz için teşekkür ederiz!',
+      html: `
+        <h3>CRD Soft bültenine abone olduğunuz için teşekkür ederiz!</h3>
+        <p>Yazılım geliştirme ve teknoloji haberleri için bizimle kalın.</p>
+        <img src="http://localhost:3000/api/statistics/email-opened" alt="" width="1" height="1" />
+      `,
+    };
 
-        if (existingSubscriber) {
-            return res.status(400).json({ message: "Bu e-posta zaten kayıtlı." });
-        }
+    // E-posta gönderim fonksiyonunu çağır
+    await sendEmail(mailOptions);
 
-        // Abone kaydını veritabanına ekle
-        await Subscriber.create({ email });
+    // Başarıyla abonelik
+    res.status(201).json({ message: "Başarıyla abone oldunuz! Hoş geldiniz!" });
 
-        // İstatistik işlemleri
-        try {
-            const subscriberStatResponse = await axios.post("http://localhost:3000/api/statistics/subscribers");
-            console.log("Abonelik istatistiği güncellendi:", subscriberStatResponse.data);
-        } catch (statError) {
-            console.error("Abonelik istatistiği güncellenemedi:", statError);
-            return res.status(500).json({ message: "İstatistik güncelleme hatası." });
-        }
-
-        try {
-            const emailSentStatResponse = await axios.post("http://localhost:3000/api/statistics/email-sent");
-            console.log("E-posta gönderim istatistiği güncellendi:", emailSentStatResponse.data);
-        } catch (statError) {
-            console.error("E-posta gönderim istatistiği güncellenemedi:", statError);
-            return res.status(500).json({ message: "E-posta gönderim istatistiği güncellenemedi." });
-        }
-
-        // E-posta gönderim işlemi
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'CRD Soft Bülteni Aboneliği',
-            text: 'CRD Soft bültenine abone olduğunuz için teşekkür ederiz!',
-            html: `<h3>CRD Soft bültenine abone olduğunuz için teşekkür ederiz!</h3>
-                  <p>Yazılım geliştirme ve teknoloji haberleri için bizimle kalın.</p>
-           <img src="http://localhost:3000/api/statistics/email-opened" alt="" width="1" height="1" />`, // E-posta açıldığında tetiklenecek
-        };
-
-        try {
-            // E-posta gönderimi
-            await transporter.sendMail(mailOptions);
-            console.log("E-posta gönderildi başarıyla.");
-        } catch (emailError) {
-            // E-posta gönderim hatası
-            console.error("E-posta gönderim hatası:", emailError);
-            return res.status(500).json({ message: "E-posta gönderim hatası." });
-        }
-
-        // Başarıyla abonelik
-        res.status(201).json({ message: "Başarıyla abone oldunuz! Hoş geldiniz!" });
-
-    } catch (error) {
-        console.error("Abonelik işlemi sırasında hata:", error);
-        res.status(500).json({ message: `Abonelik işlemi sırasında bir hata oluştu: ${error.message}` });
-    }
+  } catch (error) {
+    console.error("Abonelik işlemi sırasında hata:", error);
+    res.status(500).json({ message: `Abonelik işlemi sırasında bir hata oluştu: ${error.message}` });
+  }
 };
