@@ -3,7 +3,7 @@ const db = require("../models");
 require('dotenv').config();
 const Subscriber = db.Subscriber;
 const axios = require("axios");
-require("dotenv").config();
+
 // Nodemailer ayarları
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -22,6 +22,17 @@ const validateEmail = (email) => {
     return emailRegex.test(email);
 };
 
+// E-posta gönderim işlemi
+const sendEmail = async (mailOptions) => {
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("E-posta başarıyla gönderildi.");
+  } catch (err) {
+    console.error("E-posta gönderim hatası:", err);
+    throw new Error("E-posta gönderim hatası.");
+  }
+};
+
 // Tüm aboneleri getirme
 exports.findAll = async (req, res) => {
     try {
@@ -34,7 +45,6 @@ exports.findAll = async (req, res) => {
 };
 
 // Abone silme
-
 exports.delete = async (req, res) => {
     const { email } = req.params;
     try {
@@ -60,6 +70,7 @@ exports.delete = async (req, res) => {
     }
 };
 
+// Abone oluşturma
 exports.create = async (req, res) => {
   const { email } = req.body;
 
