@@ -31,7 +31,9 @@ require("./app/routes/product.routes")(app);
 require("./app/routes/perfumeVote.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/review.routes")(app);
-
+app.get("/", (req, res) => {
+  res.send("Sunucum canlı!");
+});
 
 // Port ayarı ve sunucu başlatma
 const PORT = process.env.PORT || 5000;
