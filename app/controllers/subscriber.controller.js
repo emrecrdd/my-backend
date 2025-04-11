@@ -96,7 +96,8 @@ exports.create = async (req, res) => {
 };
 // Abone silme
 exports.delete = async (req, res) => {
-    const { email } = req.params;
+    const { email } = req.body;  // <-- burada değişiklik yaptık
+
     try {
         const deletedRows = await Subscriber.destroy({ where: { email } });
 
@@ -104,19 +105,14 @@ exports.delete = async (req, res) => {
             return res.status(404).json({ message: "Abone bulunamadı." });
         }
 
-        // İstatistikleri güncelleme için API çağrısı yapıyoruz
-        try {
-            await axios.post("http://localhost:3000/api/statistics/update-after-delete");
-            console.log("İstatistikler güncellendi.");
-        } catch (statError) {
-            console.error("İstatistik güncellenemedi:", statError);
-            return res.status(500).json({ message: "İstatistik güncellenirken bir hata oluştu." });
-        }
+        // CANLI ortamda localhost kullanma!
+        await axios.post("https://my-backend-2-2qbc.onrender.com/api/statistics/update-after-delete");
 
-        res.status(204).send();
+        res.status(204).send();  // No content
     } catch (error) {
         console.error("Abone silinirken hata:", error);
         res.status(500).json({ message: "Abone silinirken hata oluştu." });
     }
 };
+
 
