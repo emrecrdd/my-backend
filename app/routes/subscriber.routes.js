@@ -9,7 +9,8 @@ module.exports = (app) => {
     router.get("/", subscribers.findAll);
 
     // Belirli bir e-posta adresine sahip aboneyi silme
-    router.delete("/:email", subscribers.delete);
+   router.post("/delete", subscribers.delete);  // Artık POST metoduyla çalışacak
+
 
     // /api/subscribers yoluna yönlendir
     app.use("/api/subscribers", router);
