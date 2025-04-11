@@ -105,7 +105,7 @@ exports.delete = async (req, res) => {
 
         // İstatistikleri güncelleme için API çağrısı yapıyoruz
         try {
-            await axios.post("http://localhost:5000/api/statistics/update-after-delete");
+            await axios.post("http://localhost:3000/api/statistics/update-after-delete");
             console.log("İstatistikler güncellendi.");
         } catch (statError) {
             console.error("İstatistik güncellenemedi:", statError);
