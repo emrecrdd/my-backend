@@ -1,5 +1,6 @@
 const { Statistics } = require('../models');  // Statistics modelini doğru import ettiğinizden emin olun!
 
+// Abone ekleme
 exports.subscribe = async (req, res) => {
   try {
     const currentMonth = new Date().toISOString().slice(0, 7);  // Yıl-Ay formatında (ör: '2025-04')
@@ -32,6 +33,7 @@ exports.subscribe = async (req, res) => {
   }
 };
 
+// E-posta gönderme
 exports.emailSent = async (req, res) => {
   try {
     const currentMonth = new Date().toISOString().slice(0, 7);  // Yıl-Ay formatında (ör: '2025-04')
@@ -64,6 +66,7 @@ exports.emailSent = async (req, res) => {
   }
 };
 
+// E-posta açılma
 exports.emailOpened = async (req, res) => {
   try {
     let stats = await Statistics.findOne();
@@ -82,6 +85,7 @@ exports.emailOpened = async (req, res) => {
   }
 };
 
+// İstatistikleri al
 exports.getStatistics = async (req, res) => {
   try {
     let stats = await Statistics.findOne();
@@ -104,7 +108,8 @@ exports.getStatistics = async (req, res) => {
     res.status(500).json({ message: 'İstatistikleri alma sırasında bir hata oluştu.' });
   }
 };
-// Abone silindikten sonra istatistikleri güncellemek için yeni bir route ekleyelim
+
+// Abone silindikten sonra istatistik güncelleme
 exports.updateAfterDelete = async (req, res) => {
   try {
       const currentMonth = new Date().toISOString().slice(0, 7);  // Yıl-Ay formatında (ör: '2025-04')
