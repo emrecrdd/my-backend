@@ -3,7 +3,7 @@ const db = require("../models");
 require('dotenv').config();
 const Subscriber = db.Subscriber;
 const axios = require("axios");
-
+require("dotenv").config();
 // Nodemailer ayarları
 const transporter = nodemailer.createTransport({
   service: "gmail",
