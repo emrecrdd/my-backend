@@ -77,9 +77,9 @@ exports.create = async (req, res) => {
       subject: 'CRD Soft Bülteni Aboneliği',
       text: 'CRD Soft bültenine abone olduğunuz için teşekkür ederiz!',
       html: `
-        <h3>CRD Soft bültenine abone olduğunuz için teşekkür ederiz!</h3>
-        <p>Yazılım geliştirme ve teknoloji haberleri için bizimle kalın.</p>
-        <img src="http://localhost:3000/api/statistics/email-opened" alt="" width="1" height="1" />
+      <h3>CRD Soft bültenine abone olduğunuz için teşekkür ederiz!</h3>
+      <p>Yazılım geliştirme ve teknoloji haberleri için bizimle kalın.</p>
+      <img src="${process.env.BACKEND_URL}/api/statistics/email-opened" alt="" width="1" height="1" />
       `,
     };
 
