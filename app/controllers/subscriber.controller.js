@@ -48,7 +48,7 @@ exports.delete = async (req, res) => {
 
         // İstatistikleri güncelleme için API çağrısı yapıyoruz
         try {
-            await axios.post("http://localhost:5000/api/statistics/update-after-delete");
+            await axios.post("http://localhost:3000/api/statistics/update-after-delete");
             console.log("İstatistikler güncellendi.");
         } catch (statError) {
             console.error("İstatistik güncellenemedi:", statError);
@@ -88,7 +88,7 @@ exports.create = async (req, res) => {
 
         // İstatistik işlemleri
         try {
-            const subscriberStatResponse = await axios.post("http://localhost:5000/api/statistics/subscribers");
+            const subscriberStatResponse = await axios.post("http://localhost:3000/api/statistics/subscribers");
             console.log("Abonelik istatistiği güncellendi:", subscriberStatResponse.data);
         } catch (statError) {
             console.error("Abonelik istatistiği güncellenemedi:", statError);
@@ -96,7 +96,7 @@ exports.create = async (req, res) => {
         }
 
         try {
-            const emailSentStatResponse = await axios.post("http://localhost:5000/api/statistics/email-sent");
+            const emailSentStatResponse = await axios.post("http://localhost:3000/api/statistics/email-sent");
             console.log("E-posta gönderim istatistiği güncellendi:", emailSentStatResponse.data);
         } catch (statError) {
             console.error("E-posta gönderim istatistiği güncellenemedi:", statError);
@@ -111,7 +111,7 @@ exports.create = async (req, res) => {
             text: 'CRD Soft bültenine abone olduğunuz için teşekkür ederiz!',
             html: `<h3>CRD Soft bültenine abone olduğunuz için teşekkür ederiz!</h3>
                   <p>Yazılım geliştirme ve teknoloji haberleri için bizimle kalın.</p>
-           <img src="http://localhost:5000/api/statistics/email-opened" alt="" width="1" height="1" />`, // E-posta açıldığında tetiklenecek
+           <img src="http://localhost:3000/api/statistics/email-opened" alt="" width="1" height="1" />`, // E-posta açıldığında tetiklenecek
         };
 
         try {
