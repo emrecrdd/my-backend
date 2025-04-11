@@ -33,7 +33,7 @@ require("./app/routes/perfumeVote.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/review.routes")(app);
 app.get("/", (req, res) => {
-  res.send("Sunucum canlı!");
+  res.send("Sunucum canlıüüüüüüü!");
 });
 
 // Port ayarı ve sunucu başlatma
