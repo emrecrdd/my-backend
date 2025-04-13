@@ -31,6 +31,7 @@ require("./app/routes/statistics.routes")(app);
 require("./app/routes/product.routes")(app);
 require("./app/routes/perfumeVote.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/authRoutes")(app);  // authRoutes.js dosyasını dahil ettik
 require("./app/routes/review.routes")(app);
 app.get("/", (req, res) => {
   res.send("Sunucum canlıüüüüüüü!");
