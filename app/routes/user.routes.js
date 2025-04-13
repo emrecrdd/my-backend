@@ -14,6 +14,11 @@ module.exports = app => {
      router.put("/:id", users.updateUserProfile);
      // Kullanıcılar Listesi
     router.get("/", users.getUsers);
+// Şifremi unuttum (şifre sıfırlama isteği)
+router.post("/forgot-password", users.forgotPassword);
+
+// Yeni şifre kaydetme (şifre sıfırlama linkinden sonra)
+router.post("/reset-password", users.resetPassword);
 
 
     // /api/users yoluna yönlendir
