@@ -18,7 +18,9 @@ module.exports = app => {
 router.post("/forgot-password", users.forgotPassword);
 
 // Yeni şifre kaydetme (şifre sıfırlama linkinden sonra)
-router.post("/reset-password", users.resetPassword);
+// Yeni şifre kaydetme (şifre sıfırlama linkinden sonra)
+router.post("/reset-password/:token", users.resetPassword);
+
 
 
     // /api/users yoluna yönlendir
