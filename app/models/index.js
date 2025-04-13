@@ -33,6 +33,7 @@ db.Product = require("./product.model.js")(sequelize, Sequelize);
 db.Subscriber = require("./subscriber.model.js")(sequelize, Sequelize);
 db.Statistics = require("./statistics.model.js")(sequelize, Sequelize); 
 db.User = require("./user.model.js")(sequelize, Sequelize); 
+db.Auth = require("./auth.model.js")(sequelize, Sequelize); // Yeni Auth modelini ekledik
 db.Coupon = require("./coupon.model.js")(sequelize, Sequelize); 
 db.Vote = require("./vote.model.js")(sequelize, Sequelize); 
 db.Favorite = require("./favorite.model.js")(sequelize, Sequelize); 
