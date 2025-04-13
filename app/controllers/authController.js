@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });  // Burada email ile sorgulama yapıyoruz
 
     if (!user) {
       return res.status(404).json({ error: "Kullanıcı bulunamadı." });
@@ -16,7 +16,6 @@ exports.forgotPassword = async (req, res) => {
     const token = crypto.randomBytes(32).toString("hex");
     const expires = Date.now() + 3600000; // 1 saat geçerli
 
-    // Yeni Auth kaydını oluşturuyoruz
     await Auth.create({
       token,
       email,
@@ -42,10 +41,11 @@ exports.forgotPassword = async (req, res) => {
 
     res.status(200).json({ message: "Şifre sıfırlama bağlantısı e-postayla gönderildi." });
   } catch (err) {
-    console.error(err);
+    console.error("Hata:", err);  // Detaylı hata logu
     res.status(500).json({ error: "Sunucu hatası." });
   }
 };
+
 
 // Şifre sıfırlama (yeni şifre belirleme)
 exports.resetPassword = async (req, res) => {
