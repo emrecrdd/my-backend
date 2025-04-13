@@ -25,14 +25,6 @@ module.exports = (sequelize, DataTypes) => {
       avatar: {
         type: DataTypes.STRING,
       },
-      resetToken: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      resetTokenExpire: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
     },
     {
       timestamps: true,
