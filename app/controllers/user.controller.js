@@ -46,25 +46,27 @@ exports.forgotPassword = async (req, res) => {
 
 // Şifre sıfırlama (yeni şifre belirleme)
 exports.resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  const resetInfo = resetTokens[token];
+  if (!resetInfo || resetInfo.expires < Date.now()) {
+    return res.status(400).json({ error: "Geçersiz veya süresi dolmuş token." });
+  }
+
   try {
-    const { token } = req.params;
-    const { password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.findOne({ where: { email: resetInfo.email } });
 
-    const resetData = resetTokens[token];
-    if (!resetData || resetData.expires < Date.now()) {
-      return res.status(400).json({ error: "Token geçersiz veya süresi dolmuş." });
-    }
-
-    const user = await User.findOne({ where: { email: resetData.email } });
     if (!user) {
       return res.status(404).json({ error: "Kullanıcı bulunamadı." });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
     await user.save();
 
-    delete resetTokens[token]; // Token'ı geçersiz kıl
+    // Token bir kez kullanılabilir olsun
+    delete resetTokens[token];
 
     res.status(200).json({ message: "Şifre başarıyla güncellendi." });
   } catch (err) {
