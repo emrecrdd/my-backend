@@ -1,79 +1,10 @@
 const db = require("../models");
 const nodemailer = require("nodemailer");
-const crypto = require("crypto");
+
 const User = db.User;
 const bcrypt = require("bcryptjs");
 
-const resetTokens = {}; // Geçici token belleği (1 saat süreli)
 
-// Şifre sıfırlama isteği (mail gönderme)
-exports.forgotPassword = async (req, res) => {
-  try {
-    const { email } = req.body;
-    const user = await User.findOne({ where: { email } });
-
-    if (!user) {
-      return res.status(404).json({ error: "Kullanıcı bulunamadı." });
-    }
-
-    const token = crypto.randomBytes(32).toString("hex");
-    const expires = Date.now() + 3600000; // 1 saat geçerli
-    resetTokens[token] = { email, expires };
-
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
-
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Şifre Sıfırlama",
-      html: `<p>Şifrenizi sıfırlamak için <a href="${resetLink}">buraya tıklayın</a>.</p>`,
-    });
-
-    res.status(200).json({ message: "Şifre sıfırlama bağlantısı e-postayla gönderildi." });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Sunucu hatası." });
-  }
-};
-
-// Şifre sıfırlama (yeni şifre belirleme)
-exports.resetPassword = async (req, res) => {
-  const { token } = req.params;
-  const { password } = req.body;
-
-  const resetInfo = resetTokens[token];
-  if (!resetInfo || resetInfo.expires < Date.now()) {
-    return res.status(400).json({ error: "Geçersiz veya süresi dolmuş token." });
-  }
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.findOne({ where: { email: resetInfo.email } });
-
-    if (!user) {
-      return res.status(404).json({ error: "Kullanıcı bulunamadı." });
-    }
-
-    user.password = hashedPassword;
-    await user.save();
-
-    // Token bir kez kullanılabilir olsun
-    delete resetTokens[token];
-
-    res.status(200).json({ message: "Şifre başarıyla güncellendi." });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Sunucu hatası." });
-  }
-};
 // Kullanıcı Oluşturma (Create - Register)
 exports.create = async (req, res) => {
   try {
