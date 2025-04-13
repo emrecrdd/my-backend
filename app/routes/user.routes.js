@@ -5,9 +5,14 @@ module.exports = app => {
   
     // Kullanıcı kaydı (Register)
     router.post("/register", users.create);
-  
+   
     // Kullanıcı girişi (Login)
-    router.post("/login", users.login);
+    router.post("/login", users.login); 
+    router.post("/forgot-password", users.forgotPassword);
+
+// Yeni şifre kaydetme (şifre sıfırlama linkinden sonra)
+// Yeni şifre kaydetme (şifre sıfırlama linkinden sonra)
+router.post("/reset-password/:token", users.resetPassword);
    // Kullanıcı Profili Alma (GET /api/users/:id)
     router.get("/:id", users.getUserProfile);
      // Kullanıcı Bilgilerini Güncelleme (PUT /api/users/:id)
@@ -15,11 +20,7 @@ module.exports = app => {
      // Kullanıcılar Listesi
     router.get("/", users.getUsers);
 // Şifremi unuttum (şifre sıfırlama isteği)
-router.post("/forgot-password", users.forgotPassword);
 
-// Yeni şifre kaydetme (şifre sıfırlama linkinden sonra)
-// Yeni şifre kaydetme (şifre sıfırlama linkinden sonra)
-router.post("/reset-password/:token", users.resetPassword);
 
 
 
