@@ -31,6 +31,7 @@ exports.create = async (req, res) => {
   const product = {
     name: req.body.name,
     brand: req.body.brand,
+     capacity:req.body.capacity,
     price: req.body.price,
     stock: req.body.stock,
     description: req.body.description || "",
@@ -162,6 +163,7 @@ exports.update = async (req, res) => {
     const updatedProduct = {
       name: req.body.name,
       brand: req.body.brand,
+      capacity:req.body.capacity,
       price: req.body.price,
       stock: req.body.stock,
       description: req.body.description || "",
