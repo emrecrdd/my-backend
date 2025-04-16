@@ -1,7 +1,7 @@
 const db = require("../models");
-const Product = db.Product;  // Ürün modeli
-const Category = db.Category;  // Kategori modeli
-const Subscriber = db.Subscriber;  // Abone modeli
+const Product = db.Product;  
+const Category = db.Category;  
+const Subscriber = db.Subscriber;  
 const Review = db.Review;
 const nodemailer = require("nodemailer");
 const { Op } = db.Sequelize;
