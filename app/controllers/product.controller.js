@@ -1,10 +1,10 @@
 const db = require("../models");
-const Product = db.Product;  
+const Product = db.Product;
 const Category = db.Category;  
-const Subscriber = db.Subscriber;  
-const Review = db.Review;
+const Subscriber = db.Subscriber;     
+const Review = db.Review;  
 const nodemailer = require("nodemailer");
-const { Op } = db.Sequelize;
+const { Op } = db.Sequelize; 
 
 require("dotenv").config();
 
@@ -37,7 +37,7 @@ exports.create = async (req, res) => {
     description: req.body.description || "",
     rating: req.body.rating || 0,
     categoryId: req.body.categoryId,
-    images: req.body.images || [],  // resimlerin geldiği alan
+    images: req.body.images || [],  
   };
 
   try {
@@ -70,7 +70,7 @@ exports.create = async (req, res) => {
       await sendEmailToSubscribers(subscribers, mailOptions);
     }
 
-    // Yeni ürünü başarılı bir şekilde oluşturduktan sonra döndür
+
     res.status(201).send(newProduct);
   } catch (error) {
     console.error("Ürün oluşturulurken hata:", error);
@@ -91,11 +91,11 @@ exports.updateRating = async (req, res) => {
       return res.status(404).send({ message: "Ürün bulunamadı" });
     }
 
-    // Ürünün rating değerini güncelle
+    
     product.rating = rating;
 
-    await product.save(); // Değişiklikleri kaydet
-    res.status(200).json(product); // Güncellenmiş ürünü döndür
+    await product.save();
+    res.status(200).json(product); 
   } catch (error) {
     console.error("Puan güncellenirken bir hata oluştu:", error);
     res.status(500).send({ message: "Puan güncellenirken bir hata oluştu" });
@@ -169,7 +169,7 @@ exports.update = async (req, res) => {
       description: req.body.description || "",
       rating: req.body.rating || 0,
       categoryId: req.body.categoryId,
-      images: req.body.images || product.images,  // Eski resimler yerine yeni resimler
+      images: req.body.images || product.images, 
     };
 
     // Veritabanında güncelle
