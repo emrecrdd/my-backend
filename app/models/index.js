@@ -44,19 +44,7 @@ db.OrderItem = require("./orderItem.model.js")(sequelize, Sequelize);
 
 
 
-// İlişkileri tanımlıyoruz
-db.Category.hasMany(db.Product, {
-  foreignKey: "categoryId",
-  as: "products",
-});
 
-db.Product.belongsTo(db.Category, {
-  foreignKey: "categoryId",
-  as: "category",
-});
-// 2️⃣ **Ürün ve Yorum İlişkisi**
-db.Product.hasMany(db.Review, { foreignKey: "productId", as: "reviews" });
-db.Review.belongsTo(db.Product, { foreignKey: "productId", as: "product" });
 // İlişkileri çağırıyoruz
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
