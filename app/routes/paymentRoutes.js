@@ -3,5 +3,5 @@ module.exports = app => {
     const router = require("express").Router();
     router.post("/test", payment.testPayment);
     app.use("/api/payments", router);
-  };
+};
   
