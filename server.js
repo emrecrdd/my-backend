@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 
 var corsOptions = {
-  origin: ["http://localhost:3000", "https://ilmoradesign.netlify.app"], // Netlify frontend domain'i
+  origin: ["http://localhost:3000", "https://crdsoft-demo-e-ticaret"], // Netlify frontend domain'i
   credentials: true
 };
 
